@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import br.com.ufc.quixada.apriori.data.RetriveData;
-import br.com.ufc.quixada.apriori.data.model.FrequentItem;
-import br.com.ufc.quixada.apriori.data.model.Movie;
-import br.com.ufc.quixada.apriori.data.model.Transaction;
+import br.com.ufc.quixada.apriori.model.FrequentItem;
+import br.com.ufc.quixada.apriori.model.Movie;
+import br.com.ufc.quixada.apriori.model.Transaction;
 import br.com.ufc.quixada.apriori.utils.Utils;
 
 

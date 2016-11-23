@@ -1,4 +1,4 @@
-package br.com.ufc.quixada.apriori.data.model;
+package br.com.ufc.quixada.apriori.model;
 
 public class Director {
 	private Integer directorId;

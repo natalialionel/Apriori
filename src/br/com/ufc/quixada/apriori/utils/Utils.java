@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import br.com.ufc.quixada.apriori.data.model.FrequentItem;
-import br.com.ufc.quixada.apriori.data.model.Movie;
-import br.com.ufc.quixada.apriori.data.model.Transaction;
+import br.com.ufc.quixada.apriori.model.FrequentItem;
+import br.com.ufc.quixada.apriori.model.Movie;
+import br.com.ufc.quixada.apriori.model.Transaction;
 
 public class Utils {
 

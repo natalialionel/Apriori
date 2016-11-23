@@ -1,4 +1,4 @@
-package br.com.ufc.quixada.apriori.data.model;
+package br.com.ufc.quixada.apriori.model;
 
 import java.util.ArrayList;
 import java.util.List;

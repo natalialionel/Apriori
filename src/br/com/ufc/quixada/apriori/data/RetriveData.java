@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.ufc.quixada.apriori.data.model.Movie;
+import br.com.ufc.quixada.apriori.model.Movie;
 import br.com.ufc.quixada.apriori.utils.Utils;
 
 public class RetriveData {
