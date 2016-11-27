@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import br.com.ufc.quixada.apriori.model.CombinedItem;
 import br.com.ufc.quixada.apriori.model.FrequentItem;
 import br.com.ufc.quixada.apriori.model.Movie;
 import br.com.ufc.quixada.apriori.model.Transaction;
@@ -34,7 +35,6 @@ public class Utils {
 		int frequence = 0;
 		FrequentItem frequent = new FrequentItem();
 		List<FrequentItem> listFrequentItens = new ArrayList<FrequentItem>();
-
 		List<Integer> transactionID = new ArrayList<Integer>();
 
 		for (int i = 0; i < listTransaction.size(); i++) {
@@ -44,11 +44,9 @@ public class Utils {
 					&& !listTransaction.get(i).isAdded()
 					&& listTransaction.get(i).getMovie().getBirthyear().equals(movie.getBirthyear())) {
 				frequence++;
-
 				listTransaction.get(i).setAdded(true);
 				transactionID.add(listTransaction.get(i).getTransactionId());
 			}
-
 		}
 
 		if (frequence >= minsuport) {
@@ -57,12 +55,64 @@ public class Utils {
 			listFrequentItens.add(frequent);
 			// System.out.println("=========Frequente -----------" + frequent);
 		}
-
 		return frequent;
-
 	}
 
-	public List<String> CombineLists(List<String> listOne, List<String> listTwo) {
+	public void frequentItem2(Movie movie, List<Transaction> listTransaction, Double minsuport){
+		int suport = 0;
+		FrequentItem frequent = new FrequentItem();
+		List<FrequentItem> listFrequentItens = new ArrayList<FrequentItem>();
+		List<Integer> transactionID = new ArrayList<Integer>();
+
+		for (int i = 0; i < listTransaction.size(); i++) {
+			if (listTransaction.get(i).getMovie().getBirthyear().equals(movie.getBirthyear())) {
+				suport++;
+				//listTransaction.get(i).setAdded(true);
+				transactionID.add(listTransaction.get(i).getTransactionId());
+				//System.out.println("=====BirthDay"+listTransaction.get(i).getMovie().getBirthyear());
+			}
+		}
+
+		if (suport >= minsuport) {
+			frequent.setFrequence(suport);
+			frequent.setListTransactionsID(transactionID);
+			listFrequentItens.add(frequent);
+			//System.out.println("=========Frequente -----------" + frequent.toString());
+		}
+
+	}
+	
+	public List<CombinedItem> combineFrequentItems(List<FrequentItem> ListfrequentBirthyear, List<FrequentItem> ListfrequentGender,List<FrequentItem> ListfrequentGenres){
+		List<CombinedItem> joins = new ArrayList<>();
+		CombinedItem combinedItem = null;
+		int count =1;
+		
+		for (FrequentItem itemOne : ListfrequentBirthyear){
+			for (FrequentItem itemTwo : ListfrequentGender) {
+				for(FrequentItem itemThree : ListfrequentGenres) {					
+					//System.out.println(count+". "+itemOne.getItem() + " :: " + itemTwo.getItem() + " :: " + itemThree.getItem());
+					combinedItem = new CombinedItem();
+					combinedItem.setBirthyear(itemOne);
+					combinedItem.setGender(itemTwo);
+					combinedItem.setGenres(itemThree);
+					joins.add(combinedItem);
+					count ++;
+				}
+			}
+		}
+		
+		for (CombinedItem combined : joins) {
+			//System.out.println(""+combined.getBirthyear()+" "+combined.getGender() +" "+combined.getGenres());
+		}
+		
+		return joins;
+	}
+	
+	public void combineFrequentItemsAndPrint(){
+		
+	}
+	
+	public List<String> combineLists(List<String> listOne, List<String> listTwo) {
 		List<String> listJoin = new ArrayList<String>();
 		StringBuilder sb = new StringBuilder();
 
@@ -75,12 +125,17 @@ public class Utils {
 		}
 		return listJoin;
 	}
+	
+	/*public List<FrequentItem> CombineListItem(List<FrequentItem>listBirthyear, List<FrequentItem> listGender){
+		List<FrequentItem> listJoin = new ArrayList<FrequentItem>();
+		
+	}*/
 
-	public void printAllCases(List<List<String>> listJoined) {
+	public List<String> printAllCases(List<List<String>> listJoined) {
 		List<String> resultJoin = new ArrayList<String>(listJoined.get(0));
 
 		for (int i = 1; i < listJoined.size(); i++) {
-			resultJoin = CombineLists(resultJoin, listJoined.get(i));
+			resultJoin = combineLists(resultJoin, listJoined.get(i));
 		}
 
 		int count = 1;
@@ -88,14 +143,16 @@ public class Utils {
 			System.out.printf(" "+count +" "+s+"\n");
 			count++;
 		}
+		
+		return resultJoin;
 	}
 
-	public List<FrequentItem> removeDuplicates(List<FrequentItem> listFrequentItem) {
-		Set<FrequentItem> set = new HashSet<FrequentItem>();
+	public List<CombinedItem> removeDuplicates(List<CombinedItem> listFrequentItem) {
+		Set<CombinedItem> set = new HashSet<CombinedItem>();
 
 		set.addAll(listFrequentItem);
 
-		return new ArrayList<FrequentItem>(set);
+		return new ArrayList<CombinedItem>(set);
 	}
 
 }
