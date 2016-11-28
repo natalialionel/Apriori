@@ -5,17 +5,10 @@ public class CombinedItem {
 	private FrequentItem birthyear;
 	private FrequentItem gender;
 	private FrequentItem genres;
-	public int getFrequenceCombined() {
-		return frequenceCombined;
-	}
-
-	public void setFrequenceCombined(int frequenceCombined) {
-		this.frequenceCombined = frequenceCombined;
-	}
-
-	private int frequenceCombined;
+	private Double frequenceCombined;
+	private Double confianceCombined;
 	
-	
+
 	
 	public CombinedItem(FrequentItem birthyear, FrequentItem gender, FrequentItem genres) {	
 		this.birthyear = birthyear;
@@ -53,18 +46,32 @@ public class CombinedItem {
 		this.genres = genres;
 	}
 	
+	public Double getFrequenceCombined() {
+		return frequenceCombined;
+	}
+
+	public void setFrequenceCombined(Double frequenceCombined) {
+		this.frequenceCombined = frequenceCombined;
+	}
 	
+	public Double getConfianceCombined() {
+		return confianceCombined;
+	}
+
+	public void setConfianceCombined(Double confianceCombined) {
+		this.confianceCombined = confianceCombined;
+	}
+
 	public String print() {
 		return "CombinedItem [birthyear=" + birthyear.getItem() + ", gender=" + gender.getItem()
-				+ ", frequenceCombined=" + frequenceCombined + "]";
+				+ ", frequenceCombined=" + frequenceCombined + ", confianceCombined="+confianceCombined +"]";
 	}
-	
-	
-	
+
 	@Override
 	public String toString() {
-		return "CombinedItem [birthyear=" + birthyear.getItem() + ", gender=" + gender.getItem() + ", genres=" + genres.getItem()
-				+ ", frequenceCombined=" + frequenceCombined + "]";
+		return "CombinedItem [birthyear=" + birthyear + ", gender=" + gender + ", genres=" + genres
+				+ ", frequenceCombined=" + frequenceCombined + ", confianceCombined=" + confianceCombined + "]";
 	}
+	
 	
 }

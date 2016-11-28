@@ -11,16 +11,15 @@ import br.com.ufc.quixada.apriori.model.Transaction;
 public class GenerateCandidate {
 
 	public List<FrequentItem> itemFrequences(List<Transaction> listTransactions, Double minsuport, Movie movie) {
-		int frequenceGender = 0;
-		int frequenceListGenres = 0;
-		int frequenceBirthyear = 0;
+		Double frequenceGender = 0.0;
+		Double frequenceListGenres = 0.0;
+		Double frequenceBirthyear = 0.0;
 		FrequentItem frequentBirthyear = new FrequentItem();
 		FrequentItem frequentGender = new FrequentItem();
 		FrequentItem frequentListGenres = new FrequentItem();
 		List<FrequentItem> listFrequentItens = new ArrayList<FrequentItem>();
-		
-
 		Movie tempMovie = null;
+		
 		for (int i = 0; i < listTransactions.size(); i++) {
 			tempMovie = listTransactions.get(i).getMovie();
 
@@ -69,21 +68,19 @@ public class GenerateCandidate {
 	}
 	
 	public List<CombinedItem> twoItemFrequenceCombined(List<Transaction> listTransactions, List<CombinedItem> listCombinedItems, Double minsuport){
-		int frequence = 0;
+		Double frequence = 0.0;
 		CombinedItem tempCombinedItem = null;
 		Movie tempMovie = null;
 		Utils utils = new Utils();
 		List<CombinedItem> listCombined = new ArrayList<CombinedItem>();
 		List<CombinedItem> listCombinedFrequent = new ArrayList<CombinedItem>();
 		
-		System.out.println("-----------Frequente 2 listas-----------");
+		//System.out.println("-----------Frequente 2 listas-----------");
 		
 		for (int k = 0; k < listCombinedItems.size(); k++) {
 			tempCombinedItem = listCombinedItems.get(k);
-			//System.out.println(tempCombinedItem.toString());
 			for (int i = 0; i < listTransactions.size(); i++) {
 				tempMovie = listTransactions.get(i).getMovie();
-				//System.out.println(tempMovie.toString());
 								
 				if (tempMovie.getBirthyear().equals(tempCombinedItem.getBirthyear().getItem()) &&
 						tempMovie.getGender().equals(tempCombinedItem.getGender().getItem()) &&
@@ -95,8 +92,9 @@ public class GenerateCandidate {
 					listTransactions.get(i).setAdded(true);
 				}
 			}
-			frequence = 0;
+			frequence = 0.0;
 		}
+		
 		
 		/*System.out.println(" frequencia -> " + combinedItem.getFrequenceCombined() +
 		" : " + combinedItem.getBirthyear().getItem() +
@@ -111,16 +109,16 @@ public class GenerateCandidate {
 		}
 		listCombinedFrequent = utils.removeDuplicates(aux);
 		
-		for (CombinedItem c : listCombinedFrequent) {
+		/*for (CombinedItem c : listCombinedFrequent) {
 			System.out.println(c.print());		
-		}
+		}*/
 		
 		return listCombinedFrequent;
 	}
 	
 	public List<CombinedItem> itemFrequencesCombined(List<Transaction> listTransactions, List<CombinedItem> lisCombinedItems, Double minsuport) {
-		System.out.println("\nEntrando no método itemFrequencesCombined....\n");
-		int frequence = 0;
+		//System.out.println("\nEntrando no método itemFrequencesCombined....\n");
+		Double frequence = 0.0;
 		Double confiance = 0.0;
 		CombinedItem tempCombinedItem = null;
 		Movie tempMovie = null;
@@ -145,7 +143,7 @@ public class GenerateCandidate {
 					listTransactions.get(i).setAdded(true);
 				}
 			}
-			frequence = 0;
+			frequence = 0.0;
 		}
 		
 		/*System.out.println(" frequencia -> " + combinedItem.getFrequenceCombined() +

@@ -64,6 +64,9 @@ public class Prune {
 			hm.put(Constants.BIRTHYEAR, listfrequentBirthyear);
 			hm.put(Constants.GENDER, listfrequentGender);
 			hm.put(Constants.GENRES, listfrequentGenres);
+			
+			
+			//System.out.println("&&&&& "+listfrequentBirthyear);
 		}		
 		return hm;
 	}

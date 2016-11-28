@@ -4,17 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FrequentItem {
-	private Integer frequence;
+	private Double frequence;
+	private Double confiance;
 	private List<Integer> listTransactionsID;
 	private String item;
 
-	public FrequentItem(Integer frequence, String item) {
+	
+	public FrequentItem(Double frequence, String item) {
 		this.frequence = frequence;
 		this.item = item;
 	}
 	
 	public FrequentItem() {
-		this.frequence = 0;
+		this.frequence = 0.0;
 		this.listTransactionsID= new ArrayList<Integer>() ;
 		this.item = "";
 	}
@@ -27,11 +29,11 @@ public class FrequentItem {
 		this.listTransactionsID = listTransactionsID;
 	}
 
-	public Integer getFrequence() {
+	public Double getFrequence() {
 		return frequence;
 	}
 
-	public void setFrequence(Integer frequence) {
+	public void setFrequence(Double frequence) {
 		this.frequence = frequence;
 	}
 
@@ -43,10 +45,20 @@ public class FrequentItem {
 		this.item = item;
 	}
 
+	public Double getConfiance() {
+		return confiance;
+	}
+
+	public void setConfiance(Double confiance) {
+		this.confiance = confiance;
+	}
+
 	@Override
 	public String toString() {
-		return "" + frequence + ", item = " + item + "";
+		return "frequence=" + frequence + ", confiance=" + confiance + ", item=" + item + "]";
 	}
+
+	
 
 
 }

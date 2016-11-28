@@ -1,7 +1,6 @@
 package br.com.ufc.quixada.apriori;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,6 @@ import br.com.ufc.quixada.apriori.data.RetriveData;
 import br.com.ufc.quixada.apriori.model.CombinedItem;
 import br.com.ufc.quixada.apriori.model.FrequentItem;
 import br.com.ufc.quixada.apriori.model.Movie;
-import br.com.ufc.quixada.apriori.model.Transaction;
 import br.com.ufc.quixada.apriori.utils.GenerateCandidate;
 import br.com.ufc.quixada.apriori.utils.Prune;
 import br.com.ufc.quixada.apriori.utils.Utils;
@@ -23,7 +21,6 @@ public class Apriori {
 	private static Map<String, List<FrequentItem>> hm;
 	private static Utils utils;
 	private static GenerateCandidate generateCandidate;
-	private static List<CombinedItem> combinedItems;
 	private static List<CombinedItem> combinedAllItems;
 	private static List<CombinedItem> combinedTwoItems;
 	private static List<CombinedItem> combinedItemsFrequents;
@@ -44,7 +41,7 @@ public class Apriori {
 			List<Movie> listMovies = new RetriveData().getDataSetFromFile(path);
 			Double minsuport;
 
-			minsuport = 17.0;
+			minsuport = 12.0;
 
 			runApriori(listMovies, minsuport);
 
@@ -56,7 +53,7 @@ public class Apriori {
 	public static void runApriori(List<Movie> listMovies, Double minsuport) {
 		initialize();
 		
-		hm = prune.generateCandidates(listMovies, minsuport);
+		hm = prune.generateCandidates(listMovies, minsuport);//Calculando frequêcia de cada item
 		combinedTwoItems = utils.combineFrequentTwoItems(hm.get(Constants.BIRTHYEAR), hm.get(Constants.GENDER));
 		combinedItemsFrequents = generateCandidate.twoItemFrequenceCombined(prune.getTransactions(listMovies), combinedTwoItems, minsuport);
 		
@@ -64,8 +61,9 @@ public class Apriori {
 		combinedAllItems = utils.combineAllFrequentItems(combinedItemsFrequents, hm.get(Constants.GENRES));
 		combinedAllItemsFrequents = generateCandidate.itemFrequencesCombined(prune.getTransactions(listMovies), combinedAllItems, minsuport);
 		
-		utils.calculeConfiance(combinedAllItemsFrequents, hm.get(Constants.GENRES), 1.0);
-		
+		minconf = 0.94;
+		utils.calculeConfiance(combinedAllItemsFrequents, hm.get(Constants.GENRES), minconf);
+	
 		
 		
 		//combinedItems = utils.combineFrequentTwoItems(hm.get(Constants.GENRES), hm.get(combinedItemsFrequents));
