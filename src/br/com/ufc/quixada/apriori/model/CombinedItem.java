@@ -53,6 +53,14 @@ public class CombinedItem {
 		this.genres = genres;
 	}
 	
+	
+	public String print() {
+		return "CombinedItem [birthyear=" + birthyear.getItem() + ", gender=" + gender.getItem()
+				+ ", frequenceCombined=" + frequenceCombined + "]";
+	}
+	
+	
+	
 	@Override
 	public String toString() {
 		return "CombinedItem [birthyear=" + birthyear.getItem() + ", gender=" + gender.getItem() + ", genres=" + genres.getItem()

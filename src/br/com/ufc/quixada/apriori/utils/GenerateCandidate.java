@@ -68,9 +68,60 @@ public class GenerateCandidate {
 		return listFrequentItens;
 	}
 	
+	public List<CombinedItem> twoItemFrequenceCombined(List<Transaction> listTransactions, List<CombinedItem> listCombinedItems, Double minsuport){
+		int frequence = 0;
+		CombinedItem tempCombinedItem = null;
+		Movie tempMovie = null;
+		Utils utils = new Utils();
+		List<CombinedItem> listCombined = new ArrayList<CombinedItem>();
+		List<CombinedItem> listCombinedFrequent = new ArrayList<CombinedItem>();
+		
+		System.out.println("-----------Frequente 2 listas-----------");
+		
+		for (int k = 0; k < listCombinedItems.size(); k++) {
+			tempCombinedItem = listCombinedItems.get(k);
+			//System.out.println(tempCombinedItem.toString());
+			for (int i = 0; i < listTransactions.size(); i++) {
+				tempMovie = listTransactions.get(i).getMovie();
+				//System.out.println(tempMovie.toString());
+								
+				if (tempMovie.getBirthyear().equals(tempCombinedItem.getBirthyear().getItem()) &&
+						tempMovie.getGender().equals(tempCombinedItem.getGender().getItem()) &&
+						!listTransactions.get(i).isAdded()) {
+					//System.out.println(tempCombinedItem.toString());
+					frequence++;
+					tempCombinedItem.setFrequenceCombined(frequence);
+					listCombined.add(tempCombinedItem);
+					listTransactions.get(i).setAdded(true);
+				}
+			}
+			frequence = 0;
+		}
+		
+		/*System.out.println(" frequencia -> " + combinedItem.getFrequenceCombined() +
+		" : " + combinedItem.getBirthyear().getItem() +
+		" : " + combinedItem.getGender().getItem() + 
+		" : " + combinedItem.getGenres().getItem());*/
+		
+		List<CombinedItem> aux = new ArrayList<>();
+		for (CombinedItem combinedItem : listCombined) {
+			if(combinedItem.getFrequenceCombined()>= minsuport){
+				aux.add(combinedItem);
+			}
+		}
+		listCombinedFrequent = utils.removeDuplicates(aux);
+		
+		for (CombinedItem c : listCombinedFrequent) {
+			System.out.println(c.print());		
+		}
+		
+		return listCombinedFrequent;
+	}
+	
 	public List<CombinedItem> itemFrequencesCombined(List<Transaction> listTransactions, List<CombinedItem> lisCombinedItems, Double minsuport) {
 		System.out.println("\nEntrando no método itemFrequencesCombined....\n");
 		int frequence = 0;
+		Double confiance = 0.0;
 		CombinedItem tempCombinedItem = null;
 		Movie tempMovie = null;
 		Utils utils = new Utils();
@@ -82,7 +133,7 @@ public class GenerateCandidate {
 			for (int i = 0; i < listTransactions.size(); i++) {
 				tempMovie = listTransactions.get(i).getMovie();
 				//System.out.println(tempMovie.toString());
-								
+					
 				if (tempMovie.getBirthyear().equals(tempCombinedItem.getBirthyear().getItem()) &&
 						tempMovie.getGender().equals(tempCombinedItem.getGender().getItem()) &&
 						tempMovie.getListGenres().toString().equals(tempCombinedItem.getGenres().getItem()) &&
@@ -111,7 +162,7 @@ public class GenerateCandidate {
 		listCombinedFrequent = utils.removeDuplicates(aux);
 		
 		for (CombinedItem c : listCombinedFrequent) {
-			System.out.println(c);		
+		//	System.out.println(c +" aparece em "+c.getFrequenceCombined() +" de " +listTransactions.size());		
 		}
 		
 		return listCombinedFrequent;
