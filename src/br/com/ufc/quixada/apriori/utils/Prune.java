@@ -11,37 +11,39 @@ import br.com.ufc.quixada.apriori.model.Movie;
 import br.com.ufc.quixada.apriori.model.Transaction;
 
 public class Prune {
-	
+
 	private List<FrequentItem> listfrequentBirthyear = new ArrayList<FrequentItem>();
 	private List<FrequentItem> listfrequentGender = new ArrayList<FrequentItem>();
 	private List<FrequentItem> listfrequentGenres = new ArrayList<FrequentItem>();
-	
+	private List<FrequentItem> listfrequentTitle = new ArrayList<FrequentItem>();
+
 	private static FrequentItem itemBirthday = null;
 	private static FrequentItem itemGender = null;
 	private static FrequentItem itemListGenres = null;
-	
+	private static FrequentItem itemListTitles = null;
+
 	private GenerateCandidate generateCandidate;
 	private Transaction transaction;
 	private List<Transaction> listTransaction;
-	
-	public Prune(){
+
+	public Prune() {
 		this.generateCandidate = new GenerateCandidate();
 		this.transaction = new Transaction();
 	}
-	
-	public Map<String, List<FrequentItem>> generateCandidates(List<Movie> movies, Double minsuport){
-		
+
+	public Map<String, List<FrequentItem>> generateCandidates(List<Movie> movies, Double minsuport) {
+
 		Map<String, List<FrequentItem>> hm = new HashMap<String, List<FrequentItem>>();
 		listTransaction = getTransactions(movies);
-		
+
 		for (Movie movie : movies) {
-			
+
 			List<FrequentItem> resultList = generateCandidate.itemFrequences(listTransaction, minsuport, movie);
-			
+			//Separando os itens e suas respectivas frequências em listas 
 			itemBirthday = resultList.get(Constants.ATTR_BIRTHYEAR);
 			itemGender = resultList.get(Constants.ATTR_GENDER);
 			itemListGenres = resultList.get(Constants.ATTR_GENRES);
-
+			itemListTitles = resultList.get(Constants.ATTR_TITLES);
 
 			if (itemBirthday != null) {
 				itemBirthday.setFrequence(itemBirthday.getFrequence());
@@ -60,27 +62,32 @@ public class Prune {
 				itemListGenres.setItem(movie.getListGenres().toString());
 				listfrequentGenres.add(itemListGenres);
 			}
-			
+
+			if (itemListTitles != null) {
+				itemListTitles.setFrequence(itemListTitles.getFrequence());
+				itemListTitles.setItem(movie.getListGenres().toString());
+				listfrequentTitle.add(itemListTitles);
+			}
+
 			hm.put(Constants.BIRTHYEAR, listfrequentBirthyear);
 			hm.put(Constants.GENDER, listfrequentGender);
 			hm.put(Constants.GENRES, listfrequentGenres);
-			
-			
-			//System.out.println("&&&&& "+listfrequentBirthyear);
-		}		
+			hm.put(Constants.TITLES, listfrequentTitle);
+
+		}
 		return hm;
 	}
 
-	public List<Transaction> getTransactions(List<Movie> movies){
+	public List<Transaction> getTransactions(List<Movie> movies) {
 		List<Transaction> listTransaction = new ArrayList<>();
-		
+
 		for (int i = 0; i < movies.size(); i++) {
 			transaction = new Transaction();
 			transaction.setTransactionId(i);
 			transaction.setMovie(movies.get(i));
 			transaction.setAdded(false);
 			listTransaction.add(transaction);
-		}		
+		}
 		return listTransaction;
 	}
 }

@@ -7,8 +7,6 @@ import java.util.Set;
 
 import br.com.ufc.quixada.apriori.model.CombinedItem;
 import br.com.ufc.quixada.apriori.model.FrequentItem;
-import br.com.ufc.quixada.apriori.model.Movie;
-import br.com.ufc.quixada.apriori.model.Transaction;
 
 public class Utils {
 
@@ -31,31 +29,6 @@ public class Utils {
 		return listItens;
 	}
 
-	public FrequentItem itemFrequence(Movie movie, List<Transaction> listTransaction, Double minsuport) {
-		Double frequence = 0.0;
-		FrequentItem frequent = new FrequentItem();
-		List<FrequentItem> listFrequentItens = new ArrayList<FrequentItem>();
-		List<Integer> transactionID = new ArrayList<Integer>();
-
-		for (int i = 0; i < listTransaction.size(); i++) {
-			if (listTransaction.get(i).getMovie().getMovieId().equals(movie.getMovieId())
-					&& listTransaction.get(i).getMovie().getListGenres().toString()
-							.equals(movie.getListGenres().toString())
-					&& !listTransaction.get(i).isAdded()
-					&& listTransaction.get(i).getMovie().getBirthyear().equals(movie.getBirthyear())) {
-				frequence++;
-				listTransaction.get(i).setAdded(true);
-				transactionID.add(listTransaction.get(i).getTransactionId());
-			}
-		}
-		if (frequence >= minsuport) {
-			frequent.setFrequence(frequence);
-			frequent.setListTransactionsID(transactionID);
-			listFrequentItens.add(frequent);
-		}
-		return frequent;
-	}
-
 	public List<CombinedItem> combineFrequentTwoItems(List<FrequentItem> ListfrequentBirthyear,
 			List<FrequentItem> ListfrequentGender) {
 		List<CombinedItem> joins = new ArrayList<>();
@@ -71,10 +44,15 @@ public class Utils {
 				joins.add(combinedItem);
 			}
 		}
+		/*for (CombinedItem item : joins) {
+			System.out.println("+++"+item.print());
+			
+		}*/
+		
 		return joins;
 	}
 
-	public List<CombinedItem> combineAllFrequentItems(List<CombinedItem> listfrequentTwoItems,
+	public List<CombinedItem> combineThreeFrequentItems(List<CombinedItem> listfrequentTwoItems,
 			List<FrequentItem> listfrequentGenres) {
 
 		List<CombinedItem> joins = new ArrayList<>();
@@ -93,12 +71,29 @@ public class Utils {
 				// count ++;
 			}
 		}
-		/*for (CombinedItem combined : joins) {
-			// System.out.println("¨¨"+count+". "+combined);
-			//System.out.println(count+". "+itemOne.getBirthyear().getItem()+ " ::
-				// "+itemOne.getGender().getItem()+ " :: "+itemTwo.getItem());
-			count++;
-		}*/
+		
+		return joins;
+	}
+	
+	
+	public List<CombinedItem> combineAllItens(List<CombinedItem> listfrequentThreeItems,List<FrequentItem> listfrequentTitle){
+		List<CombinedItem> joins = new ArrayList<>();
+		CombinedItem combinedItem = null;
+		//int count = 1;
+
+		for (CombinedItem itemOne : listfrequentThreeItems) {
+			for (FrequentItem itemTwo : listfrequentTitle) {
+				
+				combinedItem = new CombinedItem();
+				combinedItem.setBirthyear(itemOne.getBirthyear());
+				combinedItem.setGender(itemOne.getGender());
+				combinedItem.setGenres(itemOne.getGenres());
+				combinedItem.setTitle(itemTwo);
+
+				joins.add(combinedItem);
+				// count ++;
+			}
+		}		
 		return joins;
 	}
 
@@ -125,34 +120,34 @@ public class Utils {
 		return joins;
 	}
 
-	public void calculeConfiance(List<CombinedItem> listItensCombinate, List<FrequentItem> listItensFrequents,
-			Double minconf) {
-		Double confiance = 0.0;
+	public void calculeConfiance(List<CombinedItem> listItensCombinate, List<CombinedItem> listTwoItensCombinate,
+			double minconf) {
+		double confiance = 0.0;
 		int count = 1;
 		List<CombinedItem> listCombinate = new ArrayList<CombinedItem>();
 		List<CombinedItem> aux  = new ArrayList<CombinedItem>();
 
-		for (FrequentItem frequentItem : listItensFrequents) {
+		for (CombinedItem combinateTwoItems : listTwoItensCombinate) {
 			for (CombinedItem combined : listItensCombinate) {
-				confiance = combined.getFrequenceCombined() / frequentItem.getFrequence();
-
-				if (confiance >= minconf) {
+				confiance = combined.getFrequenceCombined() / combinateTwoItems.getFrequenceCombined();
+				if (confiance >= minconf ) {
 					combined.setConfianceCombined(confiance);
 					aux.add(combined);
 				}
 			}
 		}
 		
-		listCombinate = removeDuplicates(aux);
-		
+		listCombinate = removeDuplicates(aux);//Removendo elementos duplicados
+						
 		for (CombinedItem combined : listCombinate) {
+			//Imprimindo a regra encontrada
 			System.out.println(count + ". A regras \t:" + combined.getBirthyear().getItem() + " e "
 					+ combined.getGender().getItem() + " -> " + combined.getGenres().getItem()
 					+ " tem confiança " + combined.getConfianceCombined() + " e suporte " + combined.getFrequenceCombined());
 			count++;
 		}
 	}
-
+	//Remoção de combinações duplicadas 
 	public List<CombinedItem> removeDuplicates(List<CombinedItem> listFrequentItem) {
 		Set<CombinedItem> set = new HashSet<CombinedItem>();
 

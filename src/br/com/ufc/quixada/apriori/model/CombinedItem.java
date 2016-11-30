@@ -5,8 +5,9 @@ public class CombinedItem {
 	private FrequentItem birthyear;
 	private FrequentItem gender;
 	private FrequentItem genres;
-	private Double frequenceCombined;
-	private Double confianceCombined;
+	private FrequentItem title;
+	private double frequenceCombined;
+	private double confianceCombined;
 	
 
 	
@@ -61,6 +62,14 @@ public class CombinedItem {
 	public void setConfianceCombined(Double confianceCombined) {
 		this.confianceCombined = confianceCombined;
 	}
+	
+	public FrequentItem getTitle() {
+		return title;
+	}
+
+	public void setTitle(FrequentItem title) {
+		this.title = title;
+	}
 
 	public String print() {
 		return "CombinedItem [birthyear=" + birthyear.getItem() + ", gender=" + gender.getItem()
@@ -69,9 +78,9 @@ public class CombinedItem {
 
 	@Override
 	public String toString() {
-		return "CombinedItem [birthyear=" + birthyear + ", gender=" + gender + ", genres=" + genres
+		return "CombinedItem [birthyear=" + birthyear + ", gender=" + gender + ", genres=" + genres + ", title=" + title
 				+ ", frequenceCombined=" + frequenceCombined + ", confianceCombined=" + confianceCombined + "]";
 	}
-	
+		
 	
 }

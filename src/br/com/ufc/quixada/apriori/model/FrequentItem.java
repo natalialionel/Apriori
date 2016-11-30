@@ -8,7 +8,6 @@ public class FrequentItem {
 	private Double confiance;
 	private List<Integer> listTransactionsID;
 	private String item;
-
 	
 	public FrequentItem(Double frequence, String item) {
 		this.frequence = frequence;

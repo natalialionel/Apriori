@@ -8,6 +8,7 @@ public class Transaction {
 	private boolean addedBirthday;
 	private boolean addedGender;
 	private boolean addedListGenres;
+	private boolean addedTitle;
 	
 	public Transaction() {
 		this.transactionId = 0;
@@ -16,6 +17,7 @@ public class Transaction {
 		this.addedBirthday = false;
 		this.addedGender = false;
 		this.addedListGenres = false;
+		this.addedTitle = false;
 	}
 
 	public Integer getTransactionId() {
@@ -66,14 +68,19 @@ public class Transaction {
 		this.addedListGenres = addedListGenres;
 	}
 
+	public boolean isAddedTitle() {
+		return addedTitle;
+	}
+
+	public void setAddedTitle(boolean addedTitle) {
+		this.addedTitle = addedTitle;
+	}
+
 	@Override
 	public String toString() {
 		return "Transaction [transactionId=" + transactionId + ", movie=" + movie + ", added=" + added
 				+ ", addedBirthday=" + addedBirthday + ", addedGender=" + addedGender + ", addedListGenres="
-				+ addedListGenres + "]";
+				+ addedListGenres + ", addedTitle=" + addedTitle + "]";
 	}
-
-	
-	
-
+		
 }
